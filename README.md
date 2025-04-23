@@ -14,5 +14,6 @@ auv_control
 └─src 源代码
     ├─auv_ctrl 控制核心代码
     ├─pca9685_thruster_speed_control PCA9685芯片 I2C转PWM推进器驱动
+    ├─wheeltec_n100 轮趣N100 IMU驱动
     └─pwm_control 推进器直连PWM驱动 ROS2包
 ```
