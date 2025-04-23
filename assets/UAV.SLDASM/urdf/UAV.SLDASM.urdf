@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="UAV.SLDASM">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-6.1211439218334E-17 -5.94264976967266E-18 0.0369029579428163"
+        rpy="0 0 0" />
+      <mass
+        value="5.37121276150706" />
+      <inertia
+        ixx="0.0198908604895537"
+        ixy="-2.7325396034247E-19"
+        ixz="-9.1681936582197E-17"
+        iyy="0.0747796659029658"
+        iyz="8.91457725844438E-21"
+        izz="0.0671801330769178" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="thruster_rm_link">
+    <inertial>
+      <origin
+        xyz="-6.91816979167537E-06 1.85193153895012E-09 -5.87407124746919E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.158357094966372" />
+      <inertia
+        ixx="0.000130051077001259"
+        ixy="2.36782112513184E-11"
+        ixz="-2.22201859243623E-10"
+        iyy="0.000128328905911993"
+        iyz="1.06489717114313E-12"
+        izz="0.000128328624681977" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_rm_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.525490196078431 0.525490196078431 0.525490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_rm_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thruster_rm_joint"
+    type="fixed">
+    <origin
+      xyz="0 -0.11 0.075"
+      rpy="1.5707963267949 -1.5707963267949 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="thruster_rm_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="thruster_lm_link">
+    <inertial>
+      <origin
+        xyz="6.91816979156434E-06 -1.85193153211459E-09 -5.87407124608141E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.158357094966372" />
+      <inertia
+        ixx="0.000130051077001259"
+        ixy="2.36782112982945E-11"
+        ixz="2.22201859288491E-10"
+        iyy="0.000128328905911993"
+        iyz="-1.06489716658675E-12"
+        izz="0.000128328624681977" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_lm_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.525490196078431 0.525490196078431 0.525490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_lm_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thruster_lm_joint"
+    type="fixed">
+    <origin
+      xyz="0 0.11 0.075"
+      rpy="1.5707963267949 -1.5707963267949 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="thruster_lm_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="thruster_lb_link">
+    <inertial>
+      <origin
+        xyz="-6.91816979167537E-06 4.1920645801885E-08 -4.11893239515848E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.158357094966372" />
+      <inertia
+        ixx="0.000130051077001259"
+        ixy="1.70629844190263E-10"
+        ixz="-1.4429061027596E-10"
+        iyy="0.000128328770619849"
+        iyz="1.40518260558983E-10"
+        izz="0.00012832875997412" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_lb_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.525490196078431 0.525490196078431 0.525490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_lb_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thruster_lb_joint"
+    type="fixed">
+    <origin
+      xyz="-0.174644660940673 0.109289321881345 -0.0150000000000003"
+      rpy="1.5707963267949 0 -2.35619449019234" />
+    <parent
+      link="base_link" />
+    <child
+      link="thruster_lb_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="thruster_rb_link">
+    <inertial>
+      <origin
+        xyz="6.918169791717E-06 -4.19206458296406E-08 -4.1189324007096E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.158357094966372" />
+      <inertia
+        ixx="0.000130051077001259"
+        ixy="1.7062984422054E-10"
+        ixz="1.44290610282736E-10"
+        iyy="0.000128328770619849"
+        iyz="-1.40518260482861E-10"
+        izz="0.00012832875997412" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_rb_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.525490196078431 0.525490196078431 0.525490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_rb_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thruster_rb_joint"
+    type="fixed">
+    <origin
+      xyz="-0.174644660940673 -0.109289321881345 -0.0150000000000003"
+      rpy="-1.5707963267949 0 2.35619449019234" />
+    <parent
+      link="base_link" />
+    <child
+      link="thruster_rb_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="thruster_rf_link">
+    <inertial>
+      <origin
+        xyz="-6.9181697915921E-06 4.1920645801885E-08 -4.11893239515848E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.158357094966372" />
+      <inertia
+        ixx="0.000130051077001259"
+        ixy="1.7062984417765E-10"
+        ixz="-1.44290610282736E-10"
+        iyy="0.000128328770619849"
+        iyz="1.4051826050651E-10"
+        izz="0.00012832875997412" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_rf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.525490196078431 0.525490196078431 0.525490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_rf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thruster_rf_joint"
+    type="fixed">
+    <origin
+      xyz="0.174644660940673 -0.109289321881345 -0.0149999999999996"
+      rpy="1.5707963267949 0 0.78539816339745" />
+    <parent
+      link="base_link" />
+    <child
+      link="thruster_rf_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="thruster_lf_link">
+    <inertial>
+      <origin
+        xyz="6.918169791717E-06 -4.19206458296406E-08 -4.1189324007096E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.158357094966372" />
+      <inertia
+        ixx="0.000130051077001259"
+        ixy="1.70629844220514E-10"
+        ixz="1.44290610309841E-10"
+        iyy="0.000128328770619849"
+        iyz="-1.40518260482812E-10"
+        izz="0.00012832875997412" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_lf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.525490196078431 0.525490196078431 0.525490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/thruster_lf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="thruster_lf_joint"
+    type="fixed">
+    <origin
+      xyz="0.174644660940673 0.109289321881345 -0.0149999999999996"
+      rpy="-1.5707963267949 0 -0.78539816339745" />
+    <parent
+      link="base_link" />
+    <child
+      link="thruster_lf_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="buoyancy_block_rf_link">
+    <inertial>
+      <origin
+        xyz="0 0.0375 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.986799402871326" />
+      <inertia
+        ixx="0.00109293658425254"
+        ixy="-1.19114008207636E-19"
+        ixz="4.54949336904165E-20"
+        iyy="0.00245175653521507"
+        iyz="-4.5908523996693E-20"
+        izz="0.00225403081876863" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_rf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.129411764705882 0.874509803921569 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_rf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="banyancy_block_rf_joint"
+    type="fixed">
+    <origin
+      xyz="0.135 -0.11 0.0300000000000003"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="buoyancy_block_rf_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="buoyancy_block_lf_link">
+    <inertial>
+      <origin
+        xyz="0 -0.0375 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.986799402871326" />
+      <inertia
+        ixx="0.00109293658425254"
+        ixy="-1.6130021944784E-19"
+        ixz="5.8729823491265E-20"
+        iyy="0.00245175653521507"
+        iyz="4.92172464469051E-20"
+        izz="0.00225403081876863" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_lf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.129411764705882 0.874509803921569 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_lf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="banyancy_block_lf_joint"
+    type="fixed">
+    <origin
+      xyz="0.135 0.11 0.0300000000000003"
+      rpy="-1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="buoyancy_block_lf_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="buoyancy_block_lb_link">
+    <inertial>
+      <origin
+        xyz="0 -0.0375 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.986799402871326" />
+      <inertia
+        ixx="0.00109293658425254"
+        ixy="-1.19941188820189E-19"
+        ixz="-4.54949336904165E-20"
+        iyy="0.00245175653521507"
+        iyz="4.17726209339279E-20"
+        izz="0.00225403081876863" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_lb_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.129411764705882 0.874509803921569 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_lb_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="buoyancy_block_lb_joint"
+    type="fixed">
+    <origin
+      xyz="-0.135 0.11 0.0299999999999998"
+      rpy="-1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="buoyancy_block_lb_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="buoyancy_block_rb_link">
+    <inertial>
+      <origin
+        xyz="0 0.0375 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.986799402871326" />
+      <inertia
+        ixx="0.00109293658425254"
+        ixy="-1.51374052097204E-19"
+        ixz="-5.12851979782877E-20"
+        iyy="0.00245175653521507"
+        iyz="-5.08716076720112E-20"
+        izz="0.00225403081876863" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_rb_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.129411764705882 0.874509803921569 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://UAV.SLDASM/meshes/buoyancy_block_rb_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="buoyancy_block_rb_joint"
+    type="fixed">
+    <origin
+      xyz="-0.135 -0.11 0.0299999999999998"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="buoyancy_block_rb_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>
