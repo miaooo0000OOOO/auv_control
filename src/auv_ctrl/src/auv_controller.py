@@ -1,8 +1,8 @@
 import numpy as np
-from pid import PIDController
+from control_tools.pid import PIDController
 from control import thrust_allocation
-import input_interface as iif
-import output_interface as oif
+import io_interface.input_interface as iif
+import io_interface.output_interface as oif
 
 class AUVController:
     def __init__(self):

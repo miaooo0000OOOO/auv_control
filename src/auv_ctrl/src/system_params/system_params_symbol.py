@@ -1,4 +1,4 @@
-import system_params as sp
+import system_params.system_params as sp
 
 # 推进器数量
 n = sp.THRUSTER_NUMBER

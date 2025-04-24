@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Callable
 
-import system_params_symbol as sps
+import system_params.system_params_symbol as sps
 
 # 发送推力指令的函数
 send_thrust_cmd: Callable[[np.ndarray], None] = None
