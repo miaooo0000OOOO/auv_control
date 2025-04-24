@@ -13,15 +13,18 @@
 ## 文件结构
 
 ```
-.   
-├── control.py # 推进器推力分配与浮力/重力补偿逻辑 
-├── pid.py # PID 控制器实现 
-├── input_interface.py # 传感器与摇杆输入接口 
-├── output_interface.py # 推力指令输出接口 
-├── auv_controller.py # 主控制器逻辑 
-├── system_params_symbol.py # 系统参数定义 
-└── README.md # 项目说明文档
-```
+src/                          # 源代码文件夹
+├── auv_controller.py         # 主控制器 - 协调各模块的核心逻辑
+├── control.py                # 推进器推力分配与浮力/重力补偿计算
+├── utils.py                  # 通用工具函数
+├── control_tools/
+│   └── pid.py                # PID控制器实现（比例-积分-微分控制）
+├── io_interface/
+│   ├── input_interface.py    # 传感器数据/操纵杆信号输入接口
+│   └── output_interface.py   # 推进器推力指令输出接口
+└── system_params/
+    ├── system_params.py      # 系统动力学参数定义（质量、浮力等）
+    └── system_params_symbol.py  # 系统动力学参数的简称
 
 ## 安装与运行
 
