@@ -1,1 +1,101 @@
-*/__pycache__
+# ========== C/C++ 相关 ==========
+# 编译生成的文件
+*.o
+*.a
+*.so
+*.out
+*.exe
+*.dll
+*.lib
+*.dylib
+
+# 调试文件
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.ilk
+
+# CMake 构建目录
+**/build/
+CMakeCache.txt
+**/CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# 自动生成的 Makefile
+*.make
+
+# ========== Python 相关 ==========
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+**/env/
+**/venv/
+**/.venv/
+**/ENV/
+**/env.bak/
+**/venv.bak/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+**/htmlcov/
+**/.tox/
+**/.nox/
+.coverage
+*.cover
+*.py,cover
+**/.hypothesis/
+**/.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+**/.mypy_cache/
+
+# numpy
+*.npy
+*.npz
+
+# ========== 通用开发工具 ==========
+# IDE 配置文件
+**/.vscode/
+**/.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# MacOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 日志文件
+*.log
+*.tmp
+
+# 临时文件
+*~
+~$*
+
+# 系统文件
+.DS_Store
