@@ -26,8 +26,8 @@
 // 推进器参数
 #define THRUSTER_COUNT 8
 #define PWM_FREQUENCY 50 // 50Hz
-#define MIN_DUTY 5.0f    // 5% 对应最小推力(1100μs)
-#define MAX_DUTY 10.0f   // 10% 对应最大推力(1900μs)
+#define MIN_DUTY 5.0f    // 5% 对应反向最大推力(1100μs)
+#define MAX_DUTY 10.0f   // 10% 对应正向最大推力(1900μs)
 
 // 全局变量
 static int i2c_fd = -1;
