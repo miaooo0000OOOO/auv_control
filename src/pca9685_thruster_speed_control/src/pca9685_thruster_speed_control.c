@@ -165,11 +165,11 @@ int pca9685_init(int freq)
     return 0;
 }
 
-/// @brief 设置推进器速度 (0-100%)
+/// @brief 设置推进器速度 (-100%~100%)
 /// @param thruster_index 推进器索引（1到THRUSTER_COUNT）
-/// @param speed 推进器速度百分比（0.0到100.0）
+/// @param speed 推进器速度百分比（-100.0f~100.0f）
 /// @return 成功返回0，失败返回-1
-/// @note 如果传入的速度超出范围（小于0或大于100），将自动限制在有效范围内。
+/// @note 如果传入的速度超出范围（小于-100或大于100），将自动限制在有效范围内。
 ///       推进器索引从1开始计数，对应的PWM通道索引为thruster_index-1。
 ///       速度值会线性映射到5%-10%的占空比范围，并转换为0-4095的PWM值。
 int set_thruster_speed(int thruster_index, float speed)
@@ -182,13 +182,13 @@ int set_thruster_speed(int thruster_index, float speed)
         return -1;
     }
 
-    if (speed < 0.0f)
-        speed = 0.0f;
+    if (speed < -100.0f)
+        speed = -100.0f;
     if (speed > 100.0f)
         speed = 100.0f;
 
-    // 将0-100%速度线性映射到5-10%占空比
-    float duty = MIN_DUTY + (speed / 100.0f) * (MAX_DUTY - MIN_DUTY);
+    // 将-100%~100%速度线性映射到5-10%占空比
+    float duty = (speed + 100.0f) * (MAX_DUTY - MIN_DUTY) / 200.0f + MIN_DUTY;
 
     // 计算PWM值 (占空比转换为0-4095)
     uint16_t pwm_value = (uint16_t)(duty * 4095.0f / 100.0f);
@@ -230,16 +230,42 @@ int main(int argc, char *argv[])
 
     printf("PCA9685推进器控制器初始化成功 (地址:0x%02X, 总线:%s)\n", addr, i2c_bus);
 
-    // 示例：测试推进器1从0%到100%
+    // 示例：测试推进器1
     printf("测试推进器1...\n");
     while (1)
     {
-        for (float speed = 0.0f; speed <= 100.0f; speed += 10.0f)
+        // 从0%到100%加速
+        for (float speed = 0.0f; speed <= 100.0f; speed += 1.0f)
         {
             printf("设置推进器1速度为 %.1f%%\n", speed);
             set_thruster_speed(1, speed);
-            usleep(500000); // 500ms延迟
+            usleep(50000); // 50ms延迟
         }
+        // 从100%到0%减速
+        for (float speed = 100.0f; speed >= 0.0f; speed -= 1.0f)
+        {
+            printf("设置推进器1速度为 %.1f%%\n", speed);
+            set_thruster_speed(1, speed);
+            usleep(50000); // 50ms延迟
+        }
+        // 从0%到-100%加速
+        for (float speed = 0.0f; speed >= -100.0f; speed -= 1.0f)
+        {
+            printf("设置推进器1速度为 %.1f%%\n", speed);
+            set_thruster_speed(1, speed);
+            usleep(50000); // 50ms延迟
+        }
+        // 从-100%到0%减速
+        for (float speed = -100.0f; speed <= 0.0f; speed += 1.0f)
+        {
+            printf("设置推进器1速度为 %.1f%%\n", speed);
+            set_thruster_speed(1, speed);
+            usleep(50000); // 50ms延迟
+        }
+        // 暂停10秒
+        printf("暂停10秒...\n");
+        set_thruster_speed(1, 0.0f); // 停止推进器
+        usleep(10000000);            // 10秒延迟
     }
 
     // 重置所有推进器速度为0

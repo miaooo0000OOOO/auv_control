@@ -3,7 +3,7 @@ from ctypes import c_int, c_float, c_char_p
 
 # 加载共享库
 # Linux: libpca9685.so
-pca9685 = ctypes.CDLL('./libpca9685.so')
+pca9685 = ctypes.CDLL("./libpca9685.so")
 
 # 定义函数原型
 pca9685.pca9685_open.argtypes = [c_char_p, c_int]
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # 打开设备
     if pca9685.pca9685_open(i2c_bus, addr) < 0:
         print("Failed to open PCA9685 device")
-        return -1
+        exit(1)
     print("PCA9685 device opened successfully")
 
     # 设置推进器速度
