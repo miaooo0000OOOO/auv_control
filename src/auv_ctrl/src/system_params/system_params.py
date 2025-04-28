@@ -95,5 +95,5 @@ g = 9.81  # m/s^2
 
 GRAVITY_FORCE = TOTAL_MASS * g  # N
 
-# 浮力，净浮力为20%
-BUOYANCY_FORCE = GRAVITY_FORCE * 1.2  # N
+# 浮力，在淡水中净浮力约为0
+BUOYANCY_FORCE = GRAVITY_FORCE  # N
