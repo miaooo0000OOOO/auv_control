@@ -6,6 +6,7 @@ import system_params.system_params_symbol as sps
 # 发送推力指令的函数
 send_thrust_cmd: Callable[[np.ndarray], None] = None
 
+
 def default_send_thrust_cmd(thrust: np.ndarray) -> None:
     """
     默认的设置推进器推力指令的实现。
@@ -13,11 +14,18 @@ def default_send_thrust_cmd(thrust: np.ndarray) -> None:
     参数:
         thrust (np.ndarray): 包含6个元素的数组，表示每个推进器的推力指令。
     """
-    # 将推力值限制在允许范围内
-    thrust = np.clip(thrust, -sps.F_n_max, sps.F_p_max)
-    
-    # 假设这里是将推力指令发送到推进器的地方
-    print("设置推力指令:", thrust)
+    print(f"原始推力: {thrust.round(2)}")
+
+    # 将推力映射为-100%~100%的范围
+    thrust = thrust / sps.F_p_max * 100
+    thrust = np.clip(thrust, -100, 100)  # 限制在-100%到100%之间
+
+    print(
+        "推力指令: {:.2f}%, {:.2f}%, {:.2f}%, {:.2f}%, {:.2f}%, {:.2f}%".format(
+            thrust[0], thrust[1], thrust[2], thrust[3], thrust[4], thrust[5]
+        )
+    )
+
 
 # 初始化为默认实现
 send_thrust_cmd = default_send_thrust_cmd
