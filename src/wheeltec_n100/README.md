@@ -58,7 +58,7 @@ python wheeltec_n100.py
 python data_vis.py
 ```
 
-3. 可视化脚本会从共享内存文件 `/dev/shm/IMU_DATA.npy` 中读取数据，并实时绘制角度和角加速度的折线图。
+3. 可视化脚本会从共享内存文件 `/dev/shm/IMU_DATA.npy` 中读取数据，并实时绘制角度和角速度的折线图。
 
 ## 注意事项
 
@@ -75,5 +75,7 @@ python data_vis.py
 - 蓝色：`Yaw` 角度（单位：度）
 
 同色虚线为对应的角速度。
+
+在代码中设置 `SHOW_ANGLE_SPEED` 的值可以决定是否显示角速度曲线
 
 折线图会动态更新最近 100 个数据点。

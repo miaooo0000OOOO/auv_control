@@ -35,7 +35,7 @@ ax.set_title("Real-Time Roll, Pitch, and Heading")
 ax.legend()
 ax.grid()
 
-SHOW_ANGLE_SPEED = False  # 是否显示角速度曲线
+SHOW_ANGLE_SPEED = True  # 是否显示角速度曲线
 
 
 # 更新函数
