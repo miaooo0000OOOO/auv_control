@@ -76,6 +76,6 @@ python data_vis.py
 
 同色虚线为对应的角速度。
 
-在代码中设置 `SHOW_ANGLE_SPEED` 的值可以决定是否显示角速度曲线
+在代码中设置 `SHOW_ANGLE_SPEED` 的值可以决定是否显示角速度曲线。
 
 折线图会动态更新最近 100 个数据点。
