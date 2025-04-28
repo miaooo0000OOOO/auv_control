@@ -103,7 +103,7 @@ if __name__ == "__main__":
                 fcntl.flock(f, fcntl.LOCK_SH)  # 加读锁
                 data: np.ndarray = np.load(f)
                 fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
-            if data.size < 3:
+            if data.size != 6:
                 print(f"共享内存文件 {SHM_FILE} 数据不完整，返回默认值")
                 return np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
             rpy = data[:3]
