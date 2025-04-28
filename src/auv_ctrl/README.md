@@ -19,6 +19,8 @@ src/                          # 源代码文件夹
 ├── utils.py                  # 通用工具函数
 ├── control_tools/
 │   └── pid.py                # PID控制器实现（比例-积分-微分控制）
+├── test/
+│   └── thrust_test.py        # 推力分配测试
 ├── io_interface/
 │   ├── input_interface.py    # 传感器数据/操纵杆信号输入接口
 │   └── output_interface.py   # 推进器推力指令输出接口
@@ -76,6 +78,9 @@ python auv_controller.py
 
    - 通过摇杆输入控制 AUV 的速度和角速度，结合 PID 控制和推力分配实现闭环控制。
 
+6. 推力分配测试 (thrust_test.py):
+   
+   - 测试系统在不同期望角速度和速度所对应的推进器出力。
 
 ### 自定义实现
 自定义传感器接口
