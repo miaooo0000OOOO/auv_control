@@ -41,13 +41,6 @@ AHRS_SHM_SIZE = 6  # 6个浮点数
 if not os.path.exists(AHRS_SHM_FILE):
     np.save(AHRS_SHM_FILE, np.zeros(AHRS_SHM_SIZE, dtype=np.float32))  # 初始化为 0
 
-INSGPS_SHM_FILE = "/dev/shm/INSGPS_DATA.npy"
-INSGPS_SHM_SIZE = 3  # 3个浮点数
-
-# 确保共享内存文件存在并初始化
-if not os.path.exists(INSGPS_SHM_FILE):
-    np.save(INSGPS_SHM_FILE, np.zeros(INSGPS_SHM_SIZE, dtype=np.float32))  # 初始化为 0
-
 
 def receive_data(ser: serial.Serial):
     """
@@ -196,22 +189,10 @@ def receive_data(ser: serial.Serial):
         data_s = ser.read(int(INSGPS_LEN, 16))
         INSGPS_DATA = struct.unpack("16f ii", data_s[0:72])
         # print(INSGPS_DATA)
-        print("BodyVelocity_X:(m/s)" + str(INSGPS_DATA[0]))
-        print("BodyVelocity_Y:(m/s)" + str(INSGPS_DATA[1]))
-        print("BodyVelocity_Z:(m/s)" + str(INSGPS_DATA[2]))
-        vx, vy, vz = INSGPS_DATA[0], INSGPS_DATA[1], INSGPS_DATA[2]
+        # print("BodyVelocity_X:(m/s)" + str(INSGPS_DATA[0]))
+        # print("BodyVelocity_Y:(m/s)" + str(INSGPS_DATA[1]))
+        # print("BodyVelocity_Z:(m/s)" + str(INSGPS_DATA[2]))
 
-        # 写入共享内存文件
-        with open(INSGPS_SHM_FILE, "wb") as f:
-            fcntl.flock(f, fcntl.LOCK_EX)  # 加写锁
-            np.save(
-                f,
-                np.array(
-                    [vx, vy, vz],
-                    dtype=np.float32,
-                ),
-            )
-            fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
         # print("BodyAcceleration_X:(m/s^2)" + str(INSGPS_DATA[3]))
         # print("BodyAcceleration_Y:(m/s^2)" + str(INSGPS_DATA[4]))
         # print("BodyAcceleration_Z:(m/s^2)" + str(INSGPS_DATA[5]))
@@ -260,7 +241,7 @@ def receive_data(ser: serial.Serial):
 
 if __name__ == "__main__":
     ser = serial.Serial(
-        port="/dev/ttyUSB0",  # windows: com6
+        port="/dev/ttyUSB0",  # windows: COM6
         baudrate=921600,
         bytesize=EIGHTBITS,
         parity=PARITY_NONE,

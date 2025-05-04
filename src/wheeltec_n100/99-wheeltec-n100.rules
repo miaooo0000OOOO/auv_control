@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", ATTRS{idVendor}=="05e3", ATTRS{idProduct}=="0610", SYMLINK+="wheeltec_n100", MODE="0666"

@@ -42,11 +42,19 @@ pip install pyserial numpy matplotlib
 python wheeltec_n100.py
 ```
 
-  默认串口名为 `/dev/ttyUSB0` ，请确保该串口名无误。Windows上的串口名例如 `com6`。
+  默认串口名为 `/dev/ttyUSB0` ，请确保该串口名无误。Windows上的串口名例如 `COM6`。
 
   要在 Linux 上成功打开串口，请确保当前用户在 `dialout` 用户组中。
 
-  脚本会自动连接到指定的串口设备，解析数据并将角度和角速度数据实时写入共享内存文件 `/dev/shm/IMU_DATA.npy`。
+  脚本会自动连接到指定的串口设备，解析数据并将角度和角速度数据实时写入共享内存文件 `/dev/shm/AHRS_DATA.npy`。
+
+### udev 规则绑定 USB
+
+将 `99-wheeltec-n100` 放入 `/etc/udev/rules.d/` 文件夹中，会在插入陀螺仪时自动创建软链接 `/dev/wheeltec_n100`。
+
+`idProduct` 和 `idVendor` 可以使用 `udevadm info --name=/dev/ttyUSB0 --attribute-walk` 命令查看。
+
+`MODE="0666"` 设置设备访问权限为所有用户可读写。
 
 ### 数据可视化
 
@@ -58,13 +66,13 @@ python wheeltec_n100.py
 python data_vis.py
 ```
 
-3. 可视化脚本会从共享内存文件 `/dev/shm/IMU_DATA.npy` 中读取数据，并实时绘制角度和角速度的折线图。
+3. 可视化脚本会从共享内存文件 `/dev/shm/AHRS_DATA.npy` 中读取数据，并实时绘制角度和角速度的折线图。
 
 ## 注意事项
 
 - 请确保指定的串口号正确且设备已连接。
 - 如果脚本无法找到指定的串口号，会提示错误并退出。
-- 共享内存文件路径为 `/dev/shm/IMU_DATA.npy`，请确保系统支持 `/dev/shm`。
+- 共享内存文件路径为 `/dev/shm/AHRS_DATA.npy`，请确保系统支持 `/dev/shm`。
 
 ## 可视化示例
 
@@ -75,7 +83,5 @@ python data_vis.py
 - 蓝色：`Yaw` 角度（单位：度）
 
 同色虚线为对应的角速度。
-
-在代码中设置 `SHOW_ANGLE_SPEED` 的值可以决定是否显示角速度曲线。
 
 折线图会动态更新最近 100 个数据点。
