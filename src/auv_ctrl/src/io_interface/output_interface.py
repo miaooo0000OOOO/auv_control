@@ -14,7 +14,7 @@ def default_send_thrust_cmd(thrust: np.ndarray) -> None:
     参数:
         thrust (np.ndarray): 包含6个元素的数组，表示每个推进器的推力指令。
     """
-    print(f"原始推力: {thrust.round(2)}")
+    print(f"各轴推力: {thrust.round(2)}")
 
     # 将推力映射为-100%~100%的范围
     thrust = thrust / sps.F_p_max * 100

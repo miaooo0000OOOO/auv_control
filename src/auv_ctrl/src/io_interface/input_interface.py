@@ -22,13 +22,10 @@ def default_get_imu():
     获取IMU的值。
 
     Returns:
-        np.ndarray: 一个包含9个元素的数组，其中前6个元素表示以弧度为单位的滚转、俯仰、偏航（rpy）和角速度（rad/s），
-        后3个元素表示线速度（m/s）。
+        np.ndarray: 一个包含6个元素的数组，表示以弧度为单位的滚转、俯仰、偏航（rpy）和角速度（rad/s），
     """
-    # 姿态rad 角速度rad/s 速度m/s
-    return np.concatenate(
-        (np.random.uniform(-np.pi, np.pi, size=6), np.random.uniform(-1, 1, size=3))
-    )
+    # 姿态rad 角速度rad/s
+    return np.random.uniform(-np.pi, np.pi, size=6)
 
 
 def default_get_joystick():

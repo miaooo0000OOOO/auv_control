@@ -104,15 +104,35 @@ class AUVController:
         imu = self.get_imu()
         current_orientation = imu[:3]  # [roll, pitch, yaw]
         current_angular_speed = imu[3:6]  # [wx, wy, wz]
-        current_speed = imu[6:9]  # [vx, vy, vz]
+        # current_speed = np.zeros(3)  # [vx, vy, vz]
+
+        # 调试信息
+        print(
+            f"""
+当前姿态: [
+    R: {np.degrees(current_orientation[0]):.2f}度
+    P: {np.degrees(current_orientation[1]):.2f}度
+    Y: {np.degrees(current_orientation[2]):.2f}度
+]
+"""
+        )
+        print(
+            f"""
+当前角速度: [
+    wx: {np.degrees(current_angular_speed[0]):.2f}度/s
+    wy: {np.degrees(current_angular_speed[1]):.2f}度/s
+    wz: {np.degrees(current_angular_speed[2]):.2f}度/s
+]
+"""
+        )
 
         # 初始化期望的力和力矩
         desired_wrench = np.zeros(6)  # [Fx, Fy, Fz, Mx, My, Mz]
 
         # 计算线速度控制力
         if self.target["xy_speed"] is not None:
-            speed_error = self.target["xy_speed"] - current_speed[:2]
-            xy_force = self.pids["xy_speed"].compute(speed_error, dt)
+            # 开环控制
+            xy_force = self.pids["xy_speed"].kp * self.target["xy_speed"]
             desired_wrench[:2] = xy_force  # Fx, Fy
 
         # 计算深度控制力
@@ -122,8 +142,8 @@ class AUVController:
             desired_wrench[2] = depth_force  # Fz
         # 计算深度速度控制力
         elif self.target["z_speed"] is not None:
-            z_speed_error = self.target["z_speed"] - current_speed[2]
-            z_force = self.pids["z_speed"].compute(z_speed_error, dt)
+            # 开环控制
+            z_force = self.pids["z_speed"].kp * self.target["z_speed"]
             desired_wrench[2] += z_force  # Fz
         else:
             raise RuntimeError("意外的代码路径被执行 depth与z_speed均为None")
@@ -195,10 +215,8 @@ if __name__ == "__main__":
 
     def custom_get_imu():
         # 定义共享内存文件路径
-        AHRS_SHM_FILE = "/dev/shm/IMU_DATA.npy"
-        INSGPS_SHM_FILE = "/dev/shm/INSGPS_DATA.npy"
+        AHRS_SHM_FILE = "/dev/shm/AHRS_DATA.npy"
         ahrs_data = np.zeros(6)
-        insgps_data = np.zeros(3)
         try:
             with open(AHRS_SHM_FILE, "rb") as f:
                 fcntl.flock(f, fcntl.LOCK_SH)  # 加读锁
@@ -208,21 +226,10 @@ if __name__ == "__main__":
                 print(f"共享内存文件 {AHRS_SHM_FILE} 数据不完整，返回默认值")
                 ahrs_data = np.zeros(6)
             print(ahrs_data.round(2))
+            return ahrs_data
         except Exception as e:
             print(f"读取共享内存文件 {AHRS_SHM_FILE} 时出错：{e}")
-
-        try:
-            with open(INSGPS_SHM_FILE, "rb") as f:
-                fcntl.flock(f, fcntl.LOCK_SH)  # 加读锁
-                insgps_data = np.load(f)
-                fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
-            if insgps_data.size != 3:
-                print(f"共享内存文件 {INSGPS_SHM_FILE} 数据不完整，返回默认值")
-                insgps_data = np.zeros(3)
-            print(insgps_data.round(2))
-        except Exception as e:
-            print(f"读取共享内存文件 {INSGPS_SHM_FILE} 时出错：{e}")
-        return np.concatenate((ahrs_data, insgps_data))
+            return np.zeros(6)
 
     # 替换默认实现
     iif.get_joystick = custom_get_joystick
@@ -237,11 +244,11 @@ if __name__ == "__main__":
             dt = 0.1  # 假设时间间隔为 0.1 秒
             controller.set_target(
                 {
-                    "xy_speed": np.array([0.0, 0.0]),
+                    "xy_speed": np.array([1.0, 0.0]),
                     "angular_speed": None,
                     "orientation": np.array([0.0, 0.0, 0.0]),
                     "z_speed": None,
-                    "depth": 1.0,
+                    "depth": 0.0,
                 }
             )
             controller.compute_control(dt)
