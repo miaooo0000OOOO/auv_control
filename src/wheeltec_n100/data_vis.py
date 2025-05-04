@@ -50,13 +50,13 @@ def update(frame):
             fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
 
         # 更新数据
-        rolls.append(data[0])
-        pitches.append(data[1])
-        headings.append(data[2])
+        rolls.append(data[0] / np.pi * 180)  # 转换为度
+        pitches.append(data[1] / np.pi * 180)  # 转换为度
+        headings.append(data[2] / np.pi * 180)  # 转换为度
 
-        line_roll_speeds.append(data[3])
-        line_pitch_speeds.append(data[4])
-        line_heading_speeds.append(data[5])
+        line_roll_speeds.append(data[3] / np.pi * 180)  # 转换为度
+        line_pitch_speeds.append(data[4] / np.pi * 180)  # 转换为度
+        line_heading_speeds.append(data[5] / np.pi * 180)  # 转换为度
 
         # 保持最近100个数据点
         if len(rolls) > 100:

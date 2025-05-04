@@ -34,12 +34,19 @@ DEG_TO_RAD = 0.017453292519943295
 isrun = True
 
 # 定义共享内存文件路径
-SHM_FILE = "/dev/shm/IMU_DATA.npy"
-SHM_SIZE = 6  # 6个浮点数
+AHRS_SHM_FILE = "/dev/shm/AHRS_DATA.npy"
+AHRS_SHM_SIZE = 6  # 6个浮点数
 
 # 确保共享内存文件存在并初始化
-if not os.path.exists(SHM_FILE):
-    np.save(SHM_FILE, np.zeros(SHM_SIZE, dtype=np.float32))  # 初始化为 0
+if not os.path.exists(AHRS_SHM_FILE):
+    np.save(AHRS_SHM_FILE, np.zeros(AHRS_SHM_SIZE, dtype=np.float32))  # 初始化为 0
+
+INSGPS_SHM_FILE = "/dev/shm/INSGPS_DATA.npy"
+INSGPS_SHM_SIZE = 3  # 3个浮点数
+
+# 确保共享内存文件存在并初始化
+if not os.path.exists(INSGPS_SHM_FILE):
+    np.save(INSGPS_SHM_FILE, np.zeros(INSGPS_SHM_SIZE, dtype=np.float32))  # 初始化为 0
 
 
 def receive_data(ser: serial.Serial):
@@ -145,21 +152,27 @@ def receive_data(ser: serial.Serial):
         # print("Roll(rad) : " + str(AHRS_DATA[3]))
         # print("Pitch(rad) : " + str(AHRS_DATA[4]))
         # print("Heading(rad) : " + str(AHRS_DATA[5]))
-        roll = AHRS_DATA[4] * 180 / PI
-        pitch = AHRS_DATA[5] * 180 / PI
-        yaw = AHRS_DATA[6] * 180 / PI
+        roll = AHRS_DATA[4]
+        pitch = AHRS_DATA[5]
+        yaw = AHRS_DATA[6]
 
         # print(f"Roll(deg): {roll}, Pitch(deg): {pitch}, Heading(deg): {yaw}")
-        
-        roll_speed = AHRS_DATA[1] * 180 / PI
-        pitch_speed = AHRS_DATA[2] * 180 / PI
-        yaw_speed = AHRS_DATA[3] * 180 / PI
+
+        roll_speed = AHRS_DATA[1]
+        pitch_speed = AHRS_DATA[2]
+        yaw_speed = AHRS_DATA[3]
         # print(f"RollSpeed(deg/s): {roll_speed}, PitchSpeed(deg/s): {pitch_speed}, HeadingSpeed(deg/s): {heading_speed}")
 
         # 写入共享内存文件
-        with open(SHM_FILE, "wb") as f:
+        with open(AHRS_SHM_FILE, "wb") as f:
             fcntl.flock(f, fcntl.LOCK_EX)  # 加写锁
-            np.save(f, np.array([roll, pitch, yaw, roll_speed, pitch_speed, yaw_speed], dtype=np.float32))
+            np.save(
+                f,
+                np.array(
+                    [roll, pitch, yaw, roll_speed, pitch_speed, yaw_speed],
+                    dtype=np.float32,
+                ),
+            )
             fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
         # Q1W=struct.unpack('f', data_s[24:28])[0]
         # Q2X=struct.unpack('f', data_s[28:32])[0]
@@ -183,9 +196,22 @@ def receive_data(ser: serial.Serial):
         data_s = ser.read(int(INSGPS_LEN, 16))
         INSGPS_DATA = struct.unpack("16f ii", data_s[0:72])
         # print(INSGPS_DATA)
-        # print("BodyVelocity_X:(m/s)" + str(INSGPS_DATA[0]))
-        # print("BodyVelocity_Y:(m/s)" + str(INSGPS_DATA[1]))
-        # print("BodyVelocity_Z:(m/s)" + str(INSGPS_DATA[2]))
+        print("BodyVelocity_X:(m/s)" + str(INSGPS_DATA[0]))
+        print("BodyVelocity_Y:(m/s)" + str(INSGPS_DATA[1]))
+        print("BodyVelocity_Z:(m/s)" + str(INSGPS_DATA[2]))
+        vx, vy, vz = INSGPS_DATA[0], INSGPS_DATA[1], INSGPS_DATA[2]
+
+        # 写入共享内存文件
+        with open(INSGPS_SHM_FILE, "wb") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)  # 加写锁
+            np.save(
+                f,
+                np.array(
+                    [vx, vy, vz],
+                    dtype=np.float32,
+                ),
+            )
+            fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
         # print("BodyAcceleration_X:(m/s^2)" + str(INSGPS_DATA[3]))
         # print("BodyAcceleration_Y:(m/s^2)" + str(INSGPS_DATA[4]))
         # print("BodyAcceleration_Z:(m/s^2)" + str(INSGPS_DATA[5]))
@@ -234,7 +260,7 @@ def receive_data(ser: serial.Serial):
 
 if __name__ == "__main__":
     ser = serial.Serial(
-        port="/dev/ttyUSB0", # windows: com6
+        port="/dev/ttyUSB0",  # windows: com6
         baudrate=921600,
         bytesize=EIGHTBITS,
         parity=PARITY_NONE,

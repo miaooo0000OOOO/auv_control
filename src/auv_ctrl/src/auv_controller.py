@@ -131,11 +131,19 @@ class AUVController:
         # 计算角速度控制力矩
         if self.target["angular_speed"] is not None:
             angular_speed_error = self.target["angular_speed"] - current_angular_speed
+            # 限制角速度误差在[-pi, pi]范围内
+            angular_speed_error = np.arctan2(
+                np.sin(angular_speed_error), np.cos(angular_speed_error)
+            )
             angular_torque = self.pids["angular_speed"].compute(angular_speed_error, dt)
             desired_wrench[3:] = angular_torque  # Mx, My, Mz
         # 计算姿态控制力矩
         elif self.target["orientation"] is not None:
             orientation_error = self.target["orientation"] - current_orientation
+            # 限制姿态误差在[-pi, pi]范围内
+            orientation_error = np.arctan2(
+                np.sin(orientation_error), np.cos(orientation_error)
+            )
             orientation_torque = self.pids["orientation"].compute(orientation_error, dt)
             desired_wrench[3:] = orientation_torque  # Mx, My, Mz
         else:
@@ -178,34 +186,43 @@ class AUVController:
 # 示例运行
 if __name__ == "__main__":
     import time
-    import os
 
     def custom_get_joystick():
-        # 定义共享内存文件路径
-        SHM_FILE = "/dev/shm/IMU_DATA.npy"
-
-        try:
-            with open(SHM_FILE, "rb") as f:
-                fcntl.flock(f, fcntl.LOCK_SH)  # 加读锁
-                data: np.ndarray = np.load(f)
-                fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
-            if data.size != 6:
-                print(f"共享内存文件 {SHM_FILE} 数据不完整，返回默认值")
-                return np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-            rpy = data[:3]
-            rpy_speed = data[3:6]
-            print(rpy_speed.round(2))
-            rpy_speed *= np.pi / 180.0  # 转换为弧度
-            return np.array([0.0, 0.0, 0.0, rpy_speed[0], rpy_speed[1], rpy_speed[2]])
-        except Exception as e:
-            print(f"读取共享内存文件 {SHM_FILE} 时出错：{e}")
-            return np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        return np.zeros(6)
 
     def custom_get_depth():
         return 0.0
 
     def custom_get_imu():
-        return np.zeros(9)
+        # 定义共享内存文件路径
+        AHRS_SHM_FILE = "/dev/shm/IMU_DATA.npy"
+        INSGPS_SHM_FILE = "/dev/shm/INSGPS_DATA.npy"
+        ahrs_data = np.zeros(6)
+        insgps_data = np.zeros(3)
+        try:
+            with open(AHRS_SHM_FILE, "rb") as f:
+                fcntl.flock(f, fcntl.LOCK_SH)  # 加读锁
+                ahrs_data = np.load(f)
+                fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
+            if ahrs_data.size != 6:
+                print(f"共享内存文件 {AHRS_SHM_FILE} 数据不完整，返回默认值")
+                ahrs_data = np.zeros(6)
+            print(ahrs_data.round(2))
+        except Exception as e:
+            print(f"读取共享内存文件 {AHRS_SHM_FILE} 时出错：{e}")
+
+        try:
+            with open(INSGPS_SHM_FILE, "rb") as f:
+                fcntl.flock(f, fcntl.LOCK_SH)  # 加读锁
+                insgps_data = np.load(f)
+                fcntl.flock(f, fcntl.LOCK_UN)  # 释放锁
+            if insgps_data.size != 3:
+                print(f"共享内存文件 {INSGPS_SHM_FILE} 数据不完整，返回默认值")
+                insgps_data = np.zeros(3)
+            print(insgps_data.round(2))
+        except Exception as e:
+            print(f"读取共享内存文件 {INSGPS_SHM_FILE} 时出错：{e}")
+        return np.concatenate((ahrs_data, insgps_data))
 
     # 替换默认实现
     iif.get_joystick = custom_get_joystick
@@ -220,7 +237,7 @@ if __name__ == "__main__":
             dt = 0.1  # 假设时间间隔为 0.1 秒
             controller.set_target(
                 {
-                    "xy_speed": np.array([0.1, 0.0]),
+                    "xy_speed": np.array([0.0, 0.0]),
                     "angular_speed": None,
                     "orientation": np.array([0.0, 0.0, 0.0]),
                     "z_speed": None,
