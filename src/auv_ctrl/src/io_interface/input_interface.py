@@ -2,28 +2,34 @@ import numpy as np
 from typing import Callable
 
 get_depth: Callable[[], float] = None
-get_orientation: Callable[[], np.ndarray] = None
+get_imu: Callable[[], np.ndarray] = None
 get_joystick: Callable[[], np.ndarray] = None
+
 
 def default_get_depth():
     """
     获取深度传感器的值。
-    
+
     Returns:
         float: 深度传感器的值，单位为米。
     """
     # 假设深度传感器返回一个随机值
     return np.random.uniform(0, 10)  # 随机深度值，范围在0到10米之间
 
-def default_get_orientation():
+
+def default_get_imu():
     """
-    获取姿态传感器的值。
-    
+    获取IMU的值。
+
     Returns:
-        np.ndarray: 包含滚转、俯仰和偏航角的数组，单位为弧度。
+        np.ndarray: 一个包含9个元素的数组，其中前6个元素表示以弧度为单位的滚转、俯仰、偏航（rpy）和角速度（rad/s），
+        后3个元素表示线速度（m/s）。
     """
-    # 假设姿态传感器返回一个随机的滚转、俯仰和偏航角
-    return np.random.uniform(-np.pi, np.pi, size=3)  # 随机姿态值，范围在-π到π之间
+    # 姿态rad 角速度rad/s 速度m/s
+    return np.concatenate(
+        (np.random.uniform(-np.pi, np.pi, size=6), np.random.uniform(-1, 1, size=3))
+    )
+
 
 def default_get_joystick():
     """
@@ -36,21 +42,18 @@ def default_get_joystick():
     # 使用随机值模拟操纵杆输入
     return np.random.uniform(-1, 1, size=6)  # 随机操纵杆值，范围在 [-1, 1] 之间
 
+
 # 初始化为默认实现
 get_depth = default_get_depth
-get_orientation = default_get_orientation
+get_imu = default_get_imu
 get_joystick = default_get_joystick
 
 # TODO 根据实际硬件接口重写
 
-# 示例：如果需要重写，可以直接替换 get_depth 和 get_orientation
+# 示例：如果需要重写，可以直接替换 get_depth 和 get_imu
 # def custom_get_depth():
 #     return 5.0  # 返回一个固定的深度值
-# def custom_get_orientation():
-#     return np.array([0, 0, np.pi/4])  # 返回一个固定的姿态值
 #
 # # 替换为自定义实现
 # get_depth = custom_get_depth
-# get_orientation = custom_get_orientation
-# 这里的代码片段定义了两个函数 `get_depth` 和 `get_orientation`，用于获取深度传感器和姿态传感器的值。
-# 这两个函数最初被初始化为默认实现，返回随机值。用户可以根据需要重写这些函数，以提供自定义的传感器数据。
+# 这个函数最初被初始化为默认实现，返回随机值。用户可以根据需要重写这些函数，以提供自定义的传感器数据。

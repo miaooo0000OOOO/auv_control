@@ -39,5 +39,5 @@ for case in test_cases:
     print(f"\n测试用例: {case['description']}")
     controller.get_joystick = to_func(case["joystick_input"])
     controller.get_depth = to_func(0.0)
-    controller.get_orientation = to_func(np.array([0.0, 0.0, 0.0]))
+    controller.get_imu = to_func(np.zeros(9))
     controller.compute_control(dt=0)  # dt = 0时，PID控制器只保留P项
