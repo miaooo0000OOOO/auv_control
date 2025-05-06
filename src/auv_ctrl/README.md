@@ -68,7 +68,7 @@ python auv_controller.py
 3. 传感器接口 (input_interface.py)：
 
     - get_depth()：获取当前深度。
-    - get_orientation()：获取当前姿态（滚转、俯仰、偏航）。
+    - get_imu()：获取当前角度与角速度。
     - get_joystick()：获取摇杆输入。
 
 4. 推力指令输出 (output_interface.py)：
