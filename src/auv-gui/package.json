@@ -1,0 +1,38 @@
+{
+  "name": "auv-gui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-opener": "^2",
+    "@types/three": "^0.176.0",
+    "pinia": "^3.0.2",
+    "three": "^0.176.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@tsconfig/node22": "^22.0.1",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.5.0",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "^9.26.0",
+    "eslint-plugin-vue": "^10.1.0",
+    "jiti": "^2.4.2",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3",
+    "vite": "6.3.5",
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vue-tsc": "^2.2.10"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
