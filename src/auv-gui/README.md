@@ -10,7 +10,7 @@
 
 示例代码参考: `test_stream_server.py` 和 `test_telemetry_server.py`
 
-用于测试的Python需要安装`flask_sock`, `flask` 和 `python-opencv`
+用于测试的Python需要安装`flask_sock`, `flask` 和 `opencv-python`
 
 ## 技术框架
 
