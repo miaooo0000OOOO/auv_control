@@ -20,7 +20,14 @@ function connectSocket() {
     socket.close();
     socket = null;
   }
-  socket = new WebSocket(store.videoStreamUrl);
+
+  const host = store.auvHost;
+  const port = store.videoStreamPort;
+  const path = store.videoStreamPath;
+
+  const videoStreamUrl = `ws://${host}:${port}${path}`;
+
+  socket = new WebSocket(videoStreamUrl);
 
   socket.onmessage = (event) => {
     videoSrc.value = `data:image/jpeg;base64,${event.data}`;

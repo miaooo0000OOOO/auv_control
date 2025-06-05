@@ -1,0 +1,9 @@
+{
+    "auvHost": "localhost",
+    "videoStreamPort": 5000,
+    "videoStreamPath": "/video-stream",
+    "telemetryPort": 4000,
+    "telemetryPath": "/telemetry",
+    "controlMessagesPort": 3000,
+    "controlMessagesPath": "/control-msg"
+}

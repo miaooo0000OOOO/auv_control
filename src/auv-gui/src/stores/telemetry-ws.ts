@@ -13,10 +13,15 @@ export function useTelemetryWebSocket() {
       socket = null;
     }
 
-    socket = new WebSocket("http://localhost:4000/telemetry");
+    // 从store中读取主机、端口和路径
+    const host = store.auvHost;
+    const port = store.telemetryPort;
+    const path = store.telemetryPath;
+    const wsUrl = `ws://${host}:${port}${path}`;
+    socket = new WebSocket(wsUrl);
 
     socket.onmessage = async (event) => {
-      if (processing) return; // 如果正在处理消息，直接返回
+      if (processing) return;
       processing = true;
 
       try {
@@ -38,7 +43,6 @@ export function useTelemetryWebSocket() {
         console.warn("Telemetry parse error:", e);
       }
 
-      // 等待 0.01 秒后允许处理下一条消息
       await new Promise((resolve) => setTimeout(resolve, 10));
       processing = false;
     };
@@ -74,9 +78,7 @@ export function useTelemetryWebSocket() {
     }
   }
 
-  // 初始化连接
   connectSocket();
 
-  // 返回清理函数，供外部调用
   return { cleanup };
 }

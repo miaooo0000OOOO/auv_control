@@ -31,9 +31,7 @@ def generate_next_data(data, use_sine_wave=True):
         data["roll"] = (180 * math.sin(time_counter)) % 360
         data["pitch"] = 90 * math.sin(time_counter / 2)
         data["yaw"] = (360 * math.sin(time_counter / 3)) % 360
-        data["thrusters"] = [
-            math.sin(time_counter + i) for i in range(6)
-        ]
+        data["thrusters"] = [math.sin(time_counter + i) for i in range(6)]
         # data["depth"] = 0  # 深度在 0 到 10 之间变化
         # data["roll"] = 350
         # data["pitch"] = 0
