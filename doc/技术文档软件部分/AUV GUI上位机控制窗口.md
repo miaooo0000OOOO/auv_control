@@ -99,8 +99,8 @@ sequenceDiagram
 ```
 
 #### 协议规范
+遥测数据
 ```json
-// 遥测数据
 {
   "depth": 1.5,
   "roll": 0.1,
@@ -108,8 +108,10 @@ sequenceDiagram
   "yaw": 1.57,
   "thrusters": [0,0.5,-0.5,0,0,0]
 }
+```
 
-// 控制指令
+控制指令
+```json
 {
   "left": {"x": 0.3, "y": -0.2},
   "right": {"x": 0, "y": 0.8}
